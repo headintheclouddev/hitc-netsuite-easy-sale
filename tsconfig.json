@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "target": "es2020",
+    "sourceMap": false,
+    "moduleResolution": "Node",
+    "newLine": "lf",
+    "noUnusedLocals": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "lib": ["ES7", "ES2015.Promise", "DOM"],
+    "paths": {
+      "N": ["node_modules/@hitc/netsuite-types/N"],
+      "N/*": ["node_modules/@hitc/netsuite-types/N/*"]
+    },
+    "outDir": "src/FileCabinet/SuiteScripts/HITC_Easy_Sale"
+  },
+  "exclude": ["node_modules"],
+  "include": ["src/TypeScripts/*"]
+}

@@ -1,0 +1,10 @@
+<suitelet scriptid="customscript_hitc_easy_sales_suitelet">
+  <description>originally by Head in the Cloud Development, Inc.&#xd;
+gurus@headintheclouddev.com</description>
+  <isinactive>F</isinactive>
+  <name>HITC Easy Sale Suitelet</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/HITC_Easy_Sale/hitc_easy_sales_suitelet.js]</scriptfile>
+</suitelet>

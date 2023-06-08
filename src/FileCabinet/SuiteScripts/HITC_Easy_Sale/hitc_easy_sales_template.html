@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="{{clientScriptURL}}"></script>
+        <script>$(window).on('load', easySalesPageInit);</script>
+        <meta charset="UTF-8">
+        <title>Easy Sales Suitelet</title>
+    </head>
+    <body>
+    <div class="d-flex flex-column text-center">
+        <div id="companyLogo" class="p-2 text-center"><span><img src="/images/logos/netsuite-oracle.svg" alt="TODO: Replace with your logo!"></span></div>
+        <div id="companyDetails" class="p-2 text-center">
+            <p id="companyInfo1">{{companyName}}</p>
+            <p id="companyInfo2">{{headerAddress}}</p>
+        </div>
+    </div>
+    <form class="form-horizontal" role="form" method="post">
+        <div id="productsContainer">{{itemRows}}</div>
+        <p class="text-center">TOTAL: $<span id="total">0</span></p>
+        <br>
+        <!-- CUSTOMER INFORMATION  -->
+        <div class="row">
+            <div class="col-md-4 col-md-offset-2">
+                <fieldset>
+                    <!-- CUSTOMER DETAILS HEADER -->
+                    <h1>Customer Details</h1>
+                    <!-- CUSTOMER INFO-->
+                    <div class="form-group">
+                        <label for="customer-name" class="col-sm-4 control-label">Name:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="custName" id="customer-name" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="company-name">Company:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="companyName" id="company-name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="customer-email">Email:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="custEmail" required id="customer-email" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="addr-line-1">Address Line 1:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="addrLineOne" required id="addr-line-1" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="addr-line-2">Address Line 2:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="addr-line-2" name="addrLineTwo" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="city">City:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="addrCity" id="city" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="state-select">State:</label>
+                        <div class="col-sm-6">
+                            <select name="addrStateCounty" class="form-control" id="state-select">{{getStateOptions}}</select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="zip-code">Zip Code:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="addrPostcode" id="zip-code" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="country-select">Country:</label>
+                        <div class="col-sm-6">
+                            <select name="addrCountry" class="form-control" id="country-select">{{getCountryOptions}}</select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="comments">Comments:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="comments" id="comments" />
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-md-4 col-md-2">
+                <fieldset>
+                    <!-- CREDIT CARD DETAILS HEADER -->
+                    <h1>Credit Card Information</h1>
+                    <!-- CREDIT CARD DETAILS -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="card-type">Credit Card Type:</label>
+                        <div class="col-sm-6">
+                            <select name="cardType" class="form-control" id="card-type">{{selectOptions}}</select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="cardholder-name">Cardholder Name:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="cardName" id="cardholder-name" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="card-number">Card Number:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="cardNo" id="card-number" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="expireDate">Expiration:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="expireDate" placeholder= "mm/yyyy" name= "expireDate" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="cvc">CVC:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="CVC" id="cvc" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="card-address">Registered Street Address:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="custAddress" id="card-address" required />
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <p class="text-center">
+            Curious about how this module works in NetSuite? Watch this five minute <a href="https://www.youtube.com/watch?v=zxsCl4H1I5k&t=123s" target="_blank">YouTube video</a> to find out!
+        </p>
+        <br>
+        <div class="d-flex flex-column text-center"><button type="submit" class="btn btn-success">Checkout</button></div>
+    </form>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+<customlist scriptid="customlist_hitc_easy_sale_tran_types">
+  <description></description>
+  <isinactive>F</isinactive>
+  <ismatrixoption>F</ismatrixoption>
+  <isordered>F</isordered>
+  <name>HITC ESS Transaction Types</name>
+  <customvalues>
+    <customvalue scriptid="val_107667_t1264278_451">
+      <abbreviation>C</abbreviation>
+      <isinactive>F</isinactive>
+      <value>Cash Sale</value>
+    </customvalue>
+    <customvalue scriptid="val_107668_t1264278_413">
+      <abbreviation>S</abbreviation>
+      <isinactive>F</isinactive>
+      <value>Sales Order</value>
+    </customvalue>
+  </customvalues>
+</customlist>

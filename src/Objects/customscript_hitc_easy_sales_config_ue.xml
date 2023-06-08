@@ -1,0 +1,22 @@
+<usereventscript scriptid="customscript_hitc_easy_sales_config_ue">
+  <description>originally by Head in the Cloud Development, Inc.&#xd;
+gurus@headintheclouddev.com</description>
+  <isinactive>F</isinactive>
+  <name>HITC Easy Sales Config - User Event</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/HITC_Easy_Sale/hitc_easy_sales_config_user_event.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy1">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <executioncontext>USERINTERFACE</executioncontext>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <recordtype>[scriptid=customrecord_hitc_easy_sales_config]</recordtype>
+      <status>RELEASED</status>
+    </scriptdeployment>
+  </scriptdeployments>
+</usereventscript>

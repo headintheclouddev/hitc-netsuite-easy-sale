@@ -1,23 +1,20 @@
 /**
  * hitc_easy_sales_suitelet.ts
- * © 2022 Head in the Cloud Development, Inc.
+ * originally by Head in the Cloud Development, Inc.
  *
  * @NScriptName HITC Easy Sale Suitelet
  * @NScriptType Suitelet
  * @NApiVersion 2.1
  */
-define(["require", "exports", "N/cache", "N/email", "N/error", "N/file", "N/format", "N/https", "N/log", "N/record", "N/runtime", "N/search", "N/url"], function (require, exports, cache, email, error, file, format, https, log, record, runtime, search, url) {
+define(["require", "exports", "N/email", "N/error", "N/file", "N/format", "N/log", "N/record", "N/runtime", "N/search", "N/url"], function (require, exports, email, error, file, format, log, record, runtime, search, url) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.validateLicense = exports.onRequest = void 0;
-    // [HITC-44] Easy Sale Suitelet - Make customer order/payments online
+    exports.onRequest = void 0;
     function onRequest(context) {
         let customerId = '';
         let configSettings = configurationSettings(context.request.parameters, customerId);
         const paymentInstruments = runtime.isFeatureInEffect({ feature: 'paymentinstruments' });
         if (context.request.method == 'GET') {
-            if (!validateLicense())
-                return context.response.write('No valid license found, please contact HITC for assistance.'); // [HITC-156] Added 24 March 2021
             const itemRows = generateItems(configSettings.savedSearchId, configSettings.priceLevel);
             context.response.write(drawHTMLForm(configSettings, itemRows));
         }
@@ -605,62 +602,6 @@ define(["require", "exports", "N/cache", "N/email", "N/error", "N/file", "N/form
             log.error('configurationSettings', `No configuration record found.`);
         }
     }
-    /** Validates license **/
-    function validateLicense() {
-        const dayBeforeNow = new Date(Date.now() - 60 * 60 * 24 * 1000);
-        const licenseCache = cache.getCache({ name: 'HITC-Easy-Sale', scope: cache.Scope.PROTECTED }); // Protected means it'll be available to any script in the bundle.
-        let licenseString = licenseCache.get({ key: 'license', loader: queryHITCNetSuite });
-        let licenseDetail = JSON.parse(licenseString);
-        // log.debug('validateLicense', `Checking license, date ${new Date(licenseDetail.timestamp)}, comparing to ${dayBeforeNow}`);
-        if (licenseDetail.timestamp < dayBeforeNow.getTime()) {
-            licenseCache.remove({ key: 'license' });
-            licenseString = licenseCache.get({ key: 'license', loader: queryHITCNetSuite });
-            licenseDetail = JSON.parse(licenseString);
-        }
-        if (!licenseDetail.licenseValid)
-            licenseCache.remove({ key: 'license' }); // We want to re-check next time if there wasn't a valid license now
-        // log.debug('validateLicense', `License validated: ${JSON.stringify(licenseDetail)}.`);
-        return licenseDetail.licenseValid;
-    }
-    exports.validateLicense = validateLicense;
-    /** Checks for valid licence **/
-    function queryHITCNetSuite() {
-        const userData = `user=${runtime.getCurrentUser().name}&email=${runtime.getCurrentUser().email}&account=${runtime.accountId}`;
-        const licenseUrl = `https://5131736.extforms.netsuite.com/app/site/hosting/scriptlet.nl?script=51&deploy=1&compid=5131736&h=f46c5e15d19ef82eb20e&product=EasySale`;
-        let licenseValid = false;
-        try {
-            const response = https.get({ url: `${licenseUrl}&${userData}` });
-            const license = JSON.parse(response.body);
-            if (license.id) {
-                let expDate = null;
-                if (license.exp) {
-                    const yearMonthDay = license.exp.split('-');
-                    expDate = new Date(`${yearMonthDay[1]}/${yearMonthDay[2]}/${yearMonthDay[0]}`);
-                }
-                licenseValid = !expDate || Date.now() <= expDate.getTime(); // If there is a license, then it must either have no expiration, or expire later
-            }
-        }
-        catch (e) {
-            log.error('LICENSE_ERROR', e.message);
-            licenseValid = true;
-        }
-        return JSON.stringify({ licenseValid, timestamp: Date.now() });
-    }
-    /** Send customer transaction successful pdf **/
-    /* function sendCashSaleEmail(custEmail, createdCashSaleId: number, emailAuthorId: string, emailNotificationAddr: string) {
-      if (custEmail.length > 0) {
-        const template = render.mergeEmail({ templateId: 223, transactionId: createdCashSaleId, entity: { type: 'cashsale', id: 670 } });
-        email.send({
-          author: Number(emailAuthorId),
-          recipients: [emailNotificationAddr],
-          subject: template.subject,
-          body: template.body,
-          attachments: [render.transaction({ entityId: 670 })],
-          relatedRecords: { transactionId: createdCashSaleId } // Same as transaction ID
-        });
-      }
-    }
-     */
     function getCountryOptions() {
         return `
     <option value="0"></option>
@@ -671,7 +612,7 @@ define(["require", "exports", "N/cache", "N/email", "N/error", "N/file", "N/form
     <option value="Andorra">Andorra</option>
     <option value="Angola">Angola</option>
     <option value="Anguilla">Anguilla</option>
-    <option value="Antartica">Antarctica</option>
+    <option value="Antarctica">Antarctica</option>
     <option value="Antigua and Barbuda">Antigua and Barbuda</option>
     <option value="Argentina">Argentina</option>
     <option value="Armenia">Armenia</option>
@@ -880,7 +821,7 @@ define(["require", "exports", "N/cache", "N/email", "N/error", "N/file", "N/form
     <option value="Tonga">Tonga</option>
     <option value="Trinidad and Tobago">Trinidad and Tobago</option>
     <option value="Tunisia">Tunisia</option>
-    <option value="Turkey">Turkey</option>
+    <option value="Turkiye">Türkiye</option>
     <option value="Turkmenistan">Turkmenistan</option>
     <option value="Turks and Caicos">Turks and Caicos Islands</option>
     <option value="Tuvalu">Tuvalu</option>
@@ -961,4 +902,3 @@ define(["require", "exports", "N/cache", "N/email", "N/error", "N/file", "N/form
     <option value="WY">Wyoming</option>`;
     }
 });
-// interface IPostParams // We can't really define this easily because of the quantities, like quantity_832, quantity_512, etc.

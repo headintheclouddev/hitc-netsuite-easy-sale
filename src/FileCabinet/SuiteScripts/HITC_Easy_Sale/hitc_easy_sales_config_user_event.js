@@ -2,7 +2,7 @@
  * hitc_easy_sales_suitelet_user_event.ts
  * by Head in the Cloud Development, Inc.
  *
- * @NScriptName HITC Easy Sales Suitelet - User Event
+ * @NScriptName HITC Easy Sales Config - User Event
  * @NScriptType UserEventScript
  * @NApiVersion 2.1
  */

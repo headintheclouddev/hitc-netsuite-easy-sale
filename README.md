@@ -3,7 +3,7 @@ This module enables your customers to easily make purchases online from a simple
 
 ## How to use this project
 See the NetSuite help documentation on how to deploy an SDF Account Customization project,
-and/or watch the YouTube video (published in June 2023) specific for this module here: XXX
+and/or watch the YouTube video (published in June 2023) specific for this module here: https://www.youtube.com/watch?v=lSQ3o5THiLs
 
 ## To Uninstall
 Really wish we had a better answer here - but the folks at Oracle do not provide an "uninstall" for SDF Configuration projects
